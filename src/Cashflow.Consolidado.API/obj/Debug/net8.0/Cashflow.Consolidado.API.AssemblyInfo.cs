@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cashflow.Consolidado.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44af7fef77c7b447b2b4e8207402fec42a885b8c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cashflow.Consolidado.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cashflow.Consolidado.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
