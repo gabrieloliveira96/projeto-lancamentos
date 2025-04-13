@@ -1,0 +1,51 @@
+2025-04-13 17:01:42.969 -03:00 [INF] Now listening on: http://localhost:5277
+2025-04-13 17:01:43.024 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-13 17:01:43.031 -03:00 [INF] Hosting environment: Development
+2025-04-13 17:01:43.039 -03:00 [INF] Content root path: C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Lancamentos.API
+2025-04-13 17:01:48.840 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5277/ - null null
+2025-04-13 17:01:48.866 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5277/ - 404 0 null 28.7335ms
+2025-04-13 17:01:48.888 -03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5277/, Response status code: 404
+2025-04-13 17:01:51.461 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5277/swagger/index.html - null null
+2025-04-13 17:01:51.531 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5277/swagger/index.html - 200 null text/html;charset=utf-8 70.3916ms
+2025-04-13 17:01:51.717 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5277/swagger/v1/swagger.json - null null
+2025-04-13 17:01:51.783 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5277/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 65.9258ms
+2025-04-13 17:01:58.246 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5277/api/Lancamentos - application/json 92
+2025-04-13 17:01:58.269 -03:00 [INF] Executing endpoint 'Cashflow.Lancamentos.API.Controllers.LancamentosController.Post (Cashflow.Lancamentos.API)'
+2025-04-13 17:01:58.308 -03:00 [INF] Route matched with {action = "Post", controller = "Lancamentos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Cashflow.Lancamentos.API.Application.Commands.Lancamentos.CreateLancamento.CreateLancamentoCommand) on controller Cashflow.Lancamentos.API.Controllers.LancamentosController (Cashflow.Lancamentos.API).
+2025-04-13 17:01:58.489 -03:00 [INF] Iniciando criação do lançamento: {"Data":"2025-04-13T20:01:54.6770000Z","Valor":1,"Tipo":"Credito","Descricao":"string","$type":"CreateLancamentoCommand"}
+2025-04-13 17:01:58.843 -03:00 [WRN] No store type was specified for the decimal property 'Valor' on entity type 'Lancamento'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-04-13 17:01:59.295 -03:00 [INF] Executed DbCommand (55ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32), @p4='?' (Precision = 18) (Scale = 2) (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Lancamentos] ([Id], [Data], [Descricao], [Tipo], [Valor])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+2025-04-13 17:01:59.341 -03:00 [INF] Lançamento criado com sucesso. ID: "1e61ce2f-58c8-462b-9cba-c5ad9baee9d0"
+2025-04-13 17:01:59.487 -03:00 [INF] Evento publicado com sucesso na fila cashflow.events. Payload: {"Id":"1e61ce2f-58c8-462b-9cba-c5ad9baee9d0","Data":"2025-04-13T20:01:54.677Z","Valor":1,"Tipo":1,"Descricao":"string","CorrelationId":"1cc600e1-5da4-45bc-8c40-5eef05cce457"}
+2025-04-13 17:01:59.550 -03:00 [INF] Evento publicado para o RabbitMQ: {"Id":"1e61ce2f-58c8-462b-9cba-c5ad9baee9d0","Data":"2025-04-13T20:01:54.6770000Z","Valor":1,"Tipo":"Credito","Descricao":"string","CorrelationId":"1cc600e1-5da4-45bc-8c40-5eef05cce457","$type":"LancamentoCriadoEvent"}
+2025-04-13 17:01:59.595 -03:00 [INF] Executing CreatedAtActionResult, writing value of type 'Cashflow.Lancamentos.API.Application.Commands.Lancamentos.CreateLancamento.CreateLancamentoCommand'.
+2025-04-13 17:01:59.640 -03:00 [INF] Executed action Cashflow.Lancamentos.API.Controllers.LancamentosController.Post (Cashflow.Lancamentos.API) in 1314.6336ms
+2025-04-13 17:01:59.650 -03:00 [INF] Executed endpoint 'Cashflow.Lancamentos.API.Controllers.LancamentosController.Post (Cashflow.Lancamentos.API)'
+2025-04-13 17:01:59.670 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5277/api/Lancamentos - 201 null application/json; charset=utf-8 1423.7512ms
+2025-04-13 17:05:14.258 -03:00 [INF] Application is shutting down...
+2025-04-13 17:05:19.544 -03:00 [INF] Now listening on: http://localhost:5277
+2025-04-13 17:05:19.578 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-13 17:05:19.581 -03:00 [INF] Hosting environment: Development
+2025-04-13 17:05:19.582 -03:00 [INF] Content root path: C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Lancamentos.API
+2025-04-13 17:05:55.103 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5277/api/Lancamentos - application/json 92
+2025-04-13 17:05:55.125 -03:00 [INF] Executing endpoint 'Cashflow.Lancamentos.API.Controllers.LancamentosController.Post (Cashflow.Lancamentos.API)'
+2025-04-13 17:05:55.141 -03:00 [INF] Route matched with {action = "Post", controller = "Lancamentos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Cashflow.Lancamentos.API.Application.Commands.Lancamentos.CreateLancamento.CreateLancamentoCommand) on controller Cashflow.Lancamentos.API.Controllers.LancamentosController (Cashflow.Lancamentos.API).
+2025-04-13 17:05:55.291 -03:00 [INF] Iniciando criação do lançamento: {"Data":"2025-04-13T20:01:54.6770000Z","Valor":1,"Tipo":"Credito","Descricao":"string","$type":"CreateLancamentoCommand"}
+2025-04-13 17:05:55.510 -03:00 [WRN] No store type was specified for the decimal property 'Valor' on entity type 'Lancamento'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-04-13 17:05:55.839 -03:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32), @p4='?' (Precision = 18) (Scale = 2) (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Lancamentos] ([Id], [Data], [Descricao], [Tipo], [Valor])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+2025-04-13 17:05:55.855 -03:00 [INF] Lançamento criado com sucesso. ID: "84bf73c7-1ec5-4985-8a25-8cbb94c48495"
+2025-04-13 17:05:55.964 -03:00 [INF] Evento publicado com sucesso na fila cashflow.events. Payload: {"Id":"84bf73c7-1ec5-4985-8a25-8cbb94c48495","Data":"2025-04-13T20:01:54.677Z","Valor":1,"Tipo":1,"Descricao":"string","CorrelationId":"91dfa07b-f5b3-4a14-aa94-5d895e2e278d"}
+2025-04-13 17:05:56.020 -03:00 [INF] Evento publicado para o RabbitMQ: {"Id":"84bf73c7-1ec5-4985-8a25-8cbb94c48495","Data":"2025-04-13T20:01:54.6770000Z","Valor":1,"Tipo":"Credito","Descricao":"string","CorrelationId":"91dfa07b-f5b3-4a14-aa94-5d895e2e278d","$type":"LancamentoCriadoEvent"}
+2025-04-13 17:05:56.037 -03:00 [INF] Executing CreatedAtActionResult, writing value of type 'Cashflow.Lancamentos.API.Application.Commands.Lancamentos.CreateLancamento.CreateLancamentoCommand'.
+2025-04-13 17:05:56.052 -03:00 [INF] Executed action Cashflow.Lancamentos.API.Controllers.LancamentosController.Post (Cashflow.Lancamentos.API) in 903.6572ms
+2025-04-13 17:05:56.055 -03:00 [INF] Executed endpoint 'Cashflow.Lancamentos.API.Controllers.LancamentosController.Post (Cashflow.Lancamentos.API)'
+2025-04-13 17:05:56.062 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5277/api/Lancamentos - 201 null application/json; charset=utf-8 959.2568ms
+2025-04-13 17:07:53.937 -03:00 [INF] Application is shutting down...

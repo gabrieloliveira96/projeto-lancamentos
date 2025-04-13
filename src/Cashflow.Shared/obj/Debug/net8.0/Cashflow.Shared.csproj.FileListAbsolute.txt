@@ -1,0 +1,12 @@
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\bin\Debug\net8.0\Cashflow.Shared.deps.json
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\bin\Debug\net8.0\Cashflow.Shared.dll
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\bin\Debug\net8.0\Cashflow.Shared.pdb
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.AssemblyInfoInputs.cache
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.AssemblyInfo.cs
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.csproj.CoreCompileInputs.cache
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.dll
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\refint\Cashflow.Shared.dll
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.pdb
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\ref\Cashflow.Shared.dll
+C:\Users\ModalGR\Estudos\desafio-controle-financeiro\src\Cashflow.Shared\obj\Debug\net8.0\Cashflow.Shared.csproj.AssemblyReference.cache
