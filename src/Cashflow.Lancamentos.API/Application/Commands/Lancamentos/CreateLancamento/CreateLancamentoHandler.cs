@@ -29,35 +29,27 @@ public class CreateLancamentoHandler : IRequestHandler<CreateLancamentoCommand, 
 
         try
         {
-            var lancamento = new Lancamento
-            {
-                Id = Guid.NewGuid(),
-                Data = request.Data,
-                Valor = request.Valor,
-                Tipo = request.Tipo,
-                Descricao = request.Descricao
-            };
+            var lancamento = Lancamento.Create(
+                request.Data,
+                request.Valor,
+                request.Tipo,
+                request.Descricao
+            );
 
             _context.Lancamentos.Add(lancamento);
 
-            var evento = new LancamentoCriadoEvent
-            {
-                Id = lancamento.Id,
-                Data = lancamento.Data,
-                Valor = lancamento.Valor,
-                Tipo = lancamento.Tipo,
-                Descricao = lancamento.Descricao,
-                CorrelationId = _correlation.CorrelationId
-            };
-
-            _context.OutboxMessages.Add(new OutboxMessage
-            {
-                Id = Guid.NewGuid(),
-                Type = nameof(LancamentoCriadoEvent),
-                Content = JsonSerializer.Serialize(evento),
-                CreatedAt = DateTime.UtcNow,
-                Processed = false
-            });
+            var evento = LancamentoCriadoEvent.Create(
+                lancamento.Id,
+                lancamento.Data,
+                lancamento.Valor,
+                lancamento.Tipo,
+                lancamento.Descricao,
+                _correlation.CorrelationId
+            );
+            
+            _context.OutboxMessages.Add(OutboxMessage.Create(
+                nameof(LancamentoCriadoEvent),
+                JsonSerializer.Serialize(evento)));
 
             await _context.SaveChangesAsync(cancellationToken);
 
