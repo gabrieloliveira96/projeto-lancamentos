@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Cashflow.Lancamentos.API.Application.Commands.Lancamentos.CreateLancamento;
 using Cashflow.Lancamentos.API.Domain.Entities;
 using Cashflow.Lancamentos.API.Infrastructure.Persistence;
@@ -6,6 +7,7 @@ using MediatR;
 using Cashflow.Shared.Infrastructure.Correlation;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Cashflow.Lancamentos.API.Observability;
 
 public class CreateLancamentoHandler : IRequestHandler<CreateLancamentoCommand, Guid>
 {
@@ -25,6 +27,9 @@ public class CreateLancamentoHandler : IRequestHandler<CreateLancamentoCommand, 
 
     public async Task<Guid> Handle(CreateLancamentoCommand request, CancellationToken cancellationToken)
     {
+        using var activity = Tracing.Source.StartActivity("CreateLancamentoHandler", ActivityKind.Producer);
+        activity?.SetTag("evento.tipo", "LancamentoCriadoEvent");
+        
         _logger.LogInformation("Iniciando criação do lançamento: {@Request}", request);
 
         try
@@ -49,7 +54,9 @@ public class CreateLancamentoHandler : IRequestHandler<CreateLancamentoCommand, 
             
             _context.OutboxMessages.Add(OutboxMessage.Create(
                 nameof(LancamentoCriadoEvent),
-                JsonSerializer.Serialize(evento)));
+                JsonSerializer.Serialize(evento),
+                Activity.Current?.Id));
+
 
             await _context.SaveChangesAsync(cancellationToken);
 

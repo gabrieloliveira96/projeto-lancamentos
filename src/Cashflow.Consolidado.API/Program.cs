@@ -1,12 +1,15 @@
 using Cashflow.Consolidado.API.Infrastructure.Persistence;
 using Cashflow.Consolidado.API.Application.Handlers;
 using Cashflow.Consolidado.API.Infrastructure.Messaging;
+using Cashflow.Shared.Infrastructure.Correlation;
+using Cashflow.Shared.Messaging.Interfaces;
+using Cashflow.Shared.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Cashflow.Shared.Infrastructure.Correlation;
-using Cashflow.Shared.Middleware;
-
+using OpenTelemetry;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 var logPath = @"C:\Cashflow\logs";
 Directory.CreateDirectory(logPath);
 
@@ -20,6 +23,21 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
     
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOpenTelemetry()
+    .WithTracing(t =>
+    {
+        t
+            .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                .AddService("Cashflow.Consolidado"))
+            .AddSource("Cashflow.Consolidado")
+            .AddJaegerExporter(o =>
+            {
+                o.AgentHost = "localhost";
+                o.AgentPort = 6831;
+            });
+    });
+
+
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers();

@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using Cashflow.Lancamentos.API.Application.Validators;
 using Cashflow.Lancamentos.API.Infrastructure.Messaging;
 using Cashflow.Lancamentos.API.Infrastructure.Persistence;
+using Cashflow.Lancamentos.API.Observability;
 using Cashflow.Shared.Infrastructure.Correlation;
 using Cashflow.Shared.Messaging.Interfaces;
 using Cashflow.Shared.Middleware;
@@ -26,6 +28,23 @@ Log.Logger = new LoggerConfiguration()
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOpenTelemetry()
+    .WithTracing(t =>
+    {
+        t
+            .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                .AddService("Cashflow.Lancamentos"))
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddSource("Cashflow.Lancamentos")
+            .AddJaegerExporter(o =>
+            {
+                o.AgentHost = "localhost";
+                o.AgentPort = 6831;
+            });
+    });
+
+
 
 builder.Host.UseSerilog();
 

@@ -91,17 +91,21 @@
               "target": "Package",
               "version": "[1.11.2, )"
             },
+            "OpenTelemetry.Exporter.Jaeger": {
+              "target": "Package",
+              "version": "[1.6.0-rc.1, )"
+            },
             "OpenTelemetry.Extensions.Hosting": {
               "target": "Package",
-              "version": "[1.11.2, )"
+              "version": "[1.7.0, )"
             },
             "OpenTelemetry.Instrumentation.AspNetCore": {
               "target": "Package",
-              "version": "[1.11.1, )"
+              "version": "[1.7.0, )"
             },
             "OpenTelemetry.Instrumentation.Http": {
               "target": "Package",
-              "version": "[1.11.1, )"
+              "version": "[1.7.0, )"
             },
             "OpenTelemetry.Instrumentation.SqlClient": {
               "target": "Package",

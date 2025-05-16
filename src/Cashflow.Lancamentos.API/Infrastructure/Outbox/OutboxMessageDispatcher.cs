@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using Cashflow.Lancamentos.API.Infrastructure.Persistence;
 using Cashflow.Shared.Messaging.Events;
 using Cashflow.Shared.Messaging.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json;
+using Cashflow.Lancamentos.API.Observability;
 
 public class OutboxMessageDispatcher : BackgroundService
 {
@@ -44,6 +46,16 @@ public class OutboxMessageDispatcher : BackgroundService
                             {
                                 _logger.LogInformation("Publicando evento: {Id} | Tipo: {Tipo} | CorrelationId: {CorrelationId}",
                                     evento.Id, msg.Type, evento.CorrelationId);
+
+                                using var activity = string.IsNullOrWhiteSpace(msg.TraceParent)
+                                    ? Tracing.Source.StartActivity($"Outbox.Publish.{msg.Type}", ActivityKind.Producer)
+                                    : Tracing.Source.StartActivity(
+                                        $"Outbox.Publish.{msg.Type}",
+                                        ActivityKind.Producer,
+                                        ActivityContext.Parse(msg.TraceParent, null));
+
+                                activity?.SetTag("outbox.message_id", msg.Id);
+                                activity?.SetTag("evento.tipo", msg.Type);
 
                                 await messageBus.PublishAsync(evento, "cashflow.events");
                             }

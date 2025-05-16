@@ -1,22 +1,20 @@
 public class OutboxMessage
 {
     public Guid Id { get; set; }
-    public string Type { get; set; } = null!;
-    public string Content { get; set; } = null!;
+    public string Type { get; set; } = "";
+    public string Content { get; set; } = "";
+    public string? TraceParent { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool Processed { get; set; }
-    public DateTime? ProcessedAt { get; set; }
-    
-    public static OutboxMessage Create(string type, string content)
-    {
-        return new OutboxMessage
+
+    public static OutboxMessage Create(string type, string content, string? traceParent = null)
+        => new()
         {
             Id = Guid.NewGuid(),
             Type = type,
             Content = content,
+            TraceParent = traceParent,
             CreatedAt = DateTime.UtcNow,
-            Processed = false,
-            ProcessedAt = null
+            Processed = false
         };
-    }
 }

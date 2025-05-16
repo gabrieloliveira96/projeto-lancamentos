@@ -62,8 +62,8 @@ namespace Cashflow.Lancamentos.API.Infrastructure.Persistence.Migrations
                     b.Property<bool>("Processed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ProcessedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("TraceParent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
                         .IsRequired()

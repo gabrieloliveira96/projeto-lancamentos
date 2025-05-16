@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using Cashflow.Consolidado.API.Domain.Aggregates;
 using Cashflow.Consolidado.API.Infrastructure.Persistence;
+using Cashflow.Consolidado.API.Observability;
 using Cashflow.Shared.Messaging.Events;
 using Cashflow.Shared.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,8 @@ public class ProcessLancamentoEventHandler
     {
         try
         {
+            using var activity = Tracing.Source.StartActivity("ProcessLancamentoEventHandler", ActivityKind.Consumer);
+            activity?.SetTag("evento.tipo", "LancamentoCriadoEvent");
         _logger.LogInformation(
             "Evento recebido: {EventoId} | Tipo: {Tipo} | Valor: {Valor} | Data: {Data} | CorrelationId: {CorrelationId}",
             evt.Id, evt.Tipo, evt.Valor, evt.Data, evt.CorrelationId);
