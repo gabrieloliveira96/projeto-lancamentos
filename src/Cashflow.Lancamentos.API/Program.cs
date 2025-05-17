@@ -1,11 +1,10 @@
 using System.Diagnostics;
 using Cashflow.Lancamentos.API.Application.Validators;
-using Cashflow.Lancamentos.API.Infrastructure.Messaging;
 using Cashflow.Lancamentos.API.Infrastructure.Persistence;
-using Cashflow.Lancamentos.API.Observability;
 using Cashflow.Shared.Infrastructure.Correlation;
 using Cashflow.Shared.Messaging.Interfaces;
 using Cashflow.Shared.Middleware;
+using Cashflow.Shared.Observability;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +27,16 @@ Log.Logger = new LoggerConfiguration()
 
 
 var builder = WebApplication.CreateBuilder(args);
+var activitySource = new ActivitySource("Cashflow.Lancamentos");
+builder.Services.AddSingleton(activitySource);
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+
 builder.Services.AddOpenTelemetry()
     .WithTracing(t =>
     {
@@ -36,13 +45,14 @@ builder.Services.AddOpenTelemetry()
                 .AddService("Cashflow.Lancamentos"))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
-            .AddSource("Cashflow.Lancamentos")
+            .AddSource(activitySource.Name) // usa a mesma source do behavior
             .AddJaegerExporter(o =>
             {
                 o.AgentHost = "localhost";
                 o.AgentPort = 6831;
             });
     });
+
 
 
 
@@ -56,7 +66,6 @@ builder.Services.AddSwaggerGen(c =>
     c.UseInlineDefinitionsForEnums();
 });
 
-builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddScoped<IMessageBus, RabbitMqMessageBus>();
 builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
 builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);

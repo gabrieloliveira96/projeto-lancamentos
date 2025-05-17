@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using Cashflow.Consolidado.API.Infrastructure.Persistence;
 using Cashflow.Consolidado.API.Application.Handlers;
 using Cashflow.Consolidado.API.Infrastructure.Messaging;
 using Cashflow.Shared.Infrastructure.Correlation;
 using Cashflow.Shared.Messaging.Interfaces;
 using Cashflow.Shared.Middleware;
+using Cashflow.Shared.Observability;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -23,13 +25,25 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
     
 var builder = WebApplication.CreateBuilder(args);
+var activitySource = new ActivitySource("Cashflow.Consolidado");
+builder.Services.AddSingleton(activitySource);
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+
 builder.Services.AddOpenTelemetry()
     .WithTracing(t =>
     {
         t
             .SetResourceBuilder(ResourceBuilder.CreateDefault()
                 .AddService("Cashflow.Consolidado"))
-            .AddSource("Cashflow.Consolidado")
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddSource(activitySource.Name) // usa a mesma source do behavior
             .AddJaegerExporter(o =>
             {
                 o.AgentHost = "localhost";
@@ -54,10 +68,11 @@ builder.Services.AddHealthChecks()
 builder.Services.AddDbContext<ConsolidadoDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
 
 builder.Services.AddScoped<ProcessLancamentoEventHandler>();
+builder.Services.AddScoped<MessageHandlerExecutor>();
+
 builder.Services.AddHostedService<RabbitMqConsumerService>();
 
 builder.Services.AddCors(options =>

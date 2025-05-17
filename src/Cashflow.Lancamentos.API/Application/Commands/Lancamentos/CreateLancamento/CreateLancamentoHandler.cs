@@ -7,7 +7,6 @@ using MediatR;
 using Cashflow.Shared.Infrastructure.Correlation;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using Cashflow.Lancamentos.API.Observability;
 
 public class CreateLancamentoHandler : IRequestHandler<CreateLancamentoCommand, Guid>
 {
@@ -27,9 +26,6 @@ public class CreateLancamentoHandler : IRequestHandler<CreateLancamentoCommand, 
 
     public async Task<Guid> Handle(CreateLancamentoCommand request, CancellationToken cancellationToken)
     {
-        using var activity = Tracing.Source.StartActivity("CreateLancamentoHandler", ActivityKind.Producer);
-        activity?.SetTag("evento.tipo", "LancamentoCriadoEvent");
-        
         _logger.LogInformation("Iniciando criação do lançamento: {@Request}", request);
 
         try

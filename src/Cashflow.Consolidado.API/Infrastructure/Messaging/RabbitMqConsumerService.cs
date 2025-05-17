@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Diagnostics;
 using OpenTelemetry.Context.Propagation;
 using Cashflow.Consolidado.API.Application.Handlers;
-using Cashflow.Consolidado.API.Observability;
+using Cashflow.Shared.Observability;
 using OpenTelemetry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -18,15 +18,18 @@ public class RabbitMqConsumerService : BackgroundService
     private readonly ILogger<RabbitMqConsumerService> _logger;
     private readonly IServiceProvider _serviceProvider;
     private readonly IConfiguration _configuration;
+    private readonly ActivitySource _activitySource;
 
     public RabbitMqConsumerService(
         IServiceProvider serviceProvider,
         IConfiguration configuration,
-        ILogger<RabbitMqConsumerService> logger)
+        ILogger<RabbitMqConsumerService> logger,
+        ActivitySource activitySource)
     {
         _serviceProvider = serviceProvider;
         _configuration = configuration;
         _logger = logger;
+        _activitySource = activitySource ?? throw new ArgumentNullException(nameof(activitySource));
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -66,18 +69,18 @@ public class RabbitMqConsumerService : BackgroundService
                 });
 
                 Baggage.Current = parentContext.Baggage;
-
-                using var activity = Tracing.Source.StartActivity(
-                    "Consumir.LancamentoCriado",
-                    ActivityKind.Consumer,
-                    parentContext.ActivityContext.IsValid() ? parentContext.ActivityContext : default
-                );
-
-                activity?.SetTag("messaging.system", "rabbitmq");
-                activity?.SetTag("messaging.destination", _configuration["RabbitMQ:QueueName"]);
-                activity?.SetTag("messaging.operation", "receive");
-                activity?.AddEvent(new ActivityEvent("Evento consumido com sucesso"));
-
+                
+                using var activity = MessagingTracingHelper.StartConsumerSpan(
+                    _activitySource,
+                    "Consumer.Event",
+                    headers,
+                    new Dictionary<string, object>
+                    {
+                        { "messaging.system", "rabbitmq" },
+                        { "messaging.destination", _configuration["RabbitMQ:QueueName"] },
+                        { "messaging.operation", "receive" }
+                    });
+                
                 _logger.LogInformation("TraceId: {TraceId} | IsValid: {IsValid}",
                     activity?.Context.TraceId, parentContext.ActivityContext.IsValid());
 
@@ -88,8 +91,8 @@ public class RabbitMqConsumerService : BackgroundService
                 if (evt is not null)
                 {
                     using var scope = _serviceProvider.CreateScope();
-                    var handler = scope.ServiceProvider.GetRequiredService<ProcessLancamentoEventHandler>();
-                    await handler.HandleAsync(evt);
+                    var executor = scope.ServiceProvider.GetRequiredService<MessageHandlerExecutor>();
+                    await executor.ExecuteAsync(evt, typeof(LancamentoCriadoEvent).Name);
                 }
             }
             catch (Exception ex)

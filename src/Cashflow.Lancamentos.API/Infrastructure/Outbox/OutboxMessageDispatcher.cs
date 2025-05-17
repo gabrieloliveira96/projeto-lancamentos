@@ -5,17 +5,20 @@ using Cashflow.Shared.Messaging.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json;
-using Cashflow.Lancamentos.API.Observability;
+using Cashflow.Shared.Observability;
 
 public class OutboxMessageDispatcher : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<OutboxMessageDispatcher> _logger;
+    private readonly ActivitySource _activitySource;
 
-    public OutboxMessageDispatcher(IServiceProvider serviceProvider, ILogger<OutboxMessageDispatcher> logger)
+    public OutboxMessageDispatcher(IServiceProvider serviceProvider, ILogger<OutboxMessageDispatcher> logger,ActivitySource activitySource)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
+        _activitySource = activitySource ?? throw new ArgumentNullException(nameof(activitySource));
+
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -47,16 +50,15 @@ public class OutboxMessageDispatcher : BackgroundService
                                 _logger.LogInformation("Publicando evento: {Id} | Tipo: {Tipo} | CorrelationId: {CorrelationId}",
                                     evento.Id, msg.Type, evento.CorrelationId);
 
-                                using var activity = string.IsNullOrWhiteSpace(msg.TraceParent)
-                                    ? Tracing.Source.StartActivity($"Outbox.Publish.{msg.Type}", ActivityKind.Producer)
-                                    : Tracing.Source.StartActivity(
-                                        $"Outbox.Publish.{msg.Type}",
-                                        ActivityKind.Producer,
-                                        ActivityContext.Parse(msg.TraceParent, null));
-
-                                activity?.SetTag("outbox.message_id", msg.Id);
-                                activity?.SetTag("evento.tipo", msg.Type);
-
+                                using var activity = MessagingTracingHelper.StartProducerSpan(
+                                    _activitySource,
+                                    $"Outbox.Publish.{msg.Type}",
+                                    msg.TraceParent,
+                                    new Dictionary<string, object>
+                                    {
+                                        { "outbox.message_id", msg.Id },
+                                        { "evento.tipo", msg.Type }
+                                    });
                                 await messageBus.PublishAsync(evento, "cashflow.events");
                             }
                             break;
