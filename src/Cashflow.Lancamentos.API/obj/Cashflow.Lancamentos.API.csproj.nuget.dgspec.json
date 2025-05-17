@@ -47,7 +47,15 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AspNetCore.HealthChecks.RabbitMQ": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "AspNetCore.HealthChecks.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "AspNetCore.HealthChecks.Uris": {
               "target": "Package",
               "version": "[9.0.0, )"
             },
@@ -117,7 +125,7 @@
             },
             "RabbitMQ.Client": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.8.0, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",

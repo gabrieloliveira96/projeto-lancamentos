@@ -418,3 +418,5 @@ C:\Users\ModalGR\Estudos\projeto-lancamentos\src\Cashflow.Lancamentos.API\obj\De
 C:\Users\ModalGR\Estudos\projeto-lancamentos\src\Cashflow.Lancamentos.API\obj\Debug\net8.0\Cashflow.Lancamentos.API.pdb
 C:\Users\ModalGR\Estudos\projeto-lancamentos\src\Cashflow.Lancamentos.API\obj\Debug\net8.0\Cashflow.Lancamentos.API.genruntimeconfig.cache
 C:\Users\ModalGR\Estudos\projeto-lancamentos\src\Cashflow.Lancamentos.API\obj\Debug\net8.0\ref\Cashflow.Lancamentos.API.dll
+C:\Users\ModalGR\Estudos\projeto-lancamentos\src\Cashflow.Lancamentos.API\bin\Debug\net8.0\HealthChecks.Rabbitmq.dll
+C:\Users\ModalGR\Estudos\projeto-lancamentos\src\Cashflow.Lancamentos.API\bin\Debug\net8.0\HealthChecks.Uris.dll

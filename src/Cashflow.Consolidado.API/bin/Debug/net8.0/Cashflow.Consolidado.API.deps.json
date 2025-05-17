@@ -8,7 +8,9 @@
     ".NETCoreApp,Version=v8.0": {
       "Cashflow.Consolidado.API/1.0.0": {
         "dependencies": {
+          "AspNetCore.HealthChecks.Rabbitmq": "8.0.1",
           "AspNetCore.HealthChecks.SqlServer": "9.0.0",
+          "AspNetCore.HealthChecks.Uris": "9.0.0",
           "Cashflow.Shared": "1.0.0",
           "MediatR": "12.5.0",
           "MediatR.Extensions.Microsoft.DependencyInjection": "11.1.0",
@@ -24,7 +26,7 @@
           "OpenTelemetry.Instrumentation.AspNetCore": "1.7.0",
           "OpenTelemetry.Instrumentation.Http": "1.7.0",
           "OpenTelemetry.Instrumentation.SqlClient": "1.11.0-beta.2",
-          "RabbitMQ.Client": "6.4.0",
+          "RabbitMQ.Client": "6.8.0",
           "Serilog.AspNetCore": "9.0.0",
           "Serilog.Enrichers.Environment": "3.0.1",
           "Serilog.Enrichers.Thread": "4.0.0",
@@ -37,6 +39,18 @@
           "Cashflow.Consolidado.API.dll": {}
         }
       },
+      "AspNetCore.HealthChecks.Rabbitmq/8.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11",
+          "RabbitMQ.Client": "6.8.0"
+        },
+        "runtime": {
+          "lib/net6.0/HealthChecks.Rabbitmq.dll": {
+            "assemblyVersion": "8.0.1.0",
+            "fileVersion": "8.0.1.0"
+          }
+        }
+      },
       "AspNetCore.HealthChecks.SqlServer/9.0.0": {
         "dependencies": {
           "Microsoft.Data.SqlClient": "5.2.2",
@@ -44,6 +58,18 @@
         },
         "runtime": {
           "lib/net8.0/HealthChecks.SqlServer.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.0.0"
+          }
+        }
+      },
+      "AspNetCore.HealthChecks.Uris/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11",
+          "Microsoft.Extensions.Http": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/HealthChecks.Uris.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.0.0"
           }
@@ -72,7 +98,7 @@
           "Azure.Core": "1.38.0",
           "Microsoft.Identity.Client": "4.61.3",
           "Microsoft.Identity.Client.Extensions.Msal": "4.61.3",
-          "System.Memory": "4.5.4",
+          "System.Memory": "4.5.5",
           "System.Security.Cryptography.ProtectedData": "8.0.0",
           "System.Text.Json": "9.0.4",
           "System.Threading.Tasks.Extensions": "4.5.4"
@@ -705,6 +731,13 @@
           }
         }
       },
+      "Microsoft.Extensions.Diagnostics/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "9.0.0",
+          "Microsoft.Extensions.Diagnostics.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "9.0.0"
+        }
+      },
       "Microsoft.Extensions.Diagnostics.Abstractions/9.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4",
@@ -764,6 +797,16 @@
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.24.52809"
           }
+        }
+      },
+      "Microsoft.Extensions.Http/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.4",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4",
+          "Microsoft.Extensions.Diagnostics": "8.0.0",
+          "Microsoft.Extensions.Logging": "9.0.4",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.4",
+          "Microsoft.Extensions.Options": "9.0.4"
         }
       },
       "Microsoft.Extensions.Logging/9.0.4": {
@@ -1076,15 +1119,15 @@
           }
         }
       },
-      "RabbitMQ.Client/6.4.0": {
+      "RabbitMQ.Client/6.8.0": {
         "dependencies": {
-          "System.Memory": "4.5.4",
+          "System.Memory": "4.5.5",
           "System.Threading.Channels": "7.0.0"
         },
         "runtime": {
           "lib/netstandard2.0/RabbitMQ.Client.dll": {
             "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.4.0.0"
+            "fileVersion": "6.8.0.0"
           }
         }
       },
@@ -1399,7 +1442,7 @@
           }
         }
       },
-      "System.Memory/4.5.4": {},
+      "System.Memory/4.5.5": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
           "System.Text.Encodings.Web": "9.0.4",
@@ -1513,12 +1556,26 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AspNetCore.HealthChecks.Rabbitmq/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m4gfYpt54csWtIED0bmHUfx/CLrj48cc4tZ6Ytz8taAC/5S0n6o3FsQanrua9gxCI0PC9gOpLfexJnVZnugw0g==",
+      "path": "aspnetcore.healthchecks.rabbitmq/8.0.1",
+      "hashPath": "aspnetcore.healthchecks.rabbitmq.8.0.1.nupkg.sha512"
+    },
     "AspNetCore.HealthChecks.SqlServer/9.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-UxCf65iCF2nU1u7AcB320abjL4CRg5swCgJECY6mKk1j5lrGMfVtskWwriGs1T29pYdRig9Vra3SPnP+4G82pA==",
       "path": "aspnetcore.healthchecks.sqlserver/9.0.0",
       "hashPath": "aspnetcore.healthchecks.sqlserver.9.0.0.nupkg.sha512"
+    },
+    "AspNetCore.HealthChecks.Uris/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XYdNlA437KeF8p9qOpZFyNqAN+c0FXt/JjTvzH/Qans0q0O3pPE8KPnn39ucQQjR/Roum1vLTP3kXiUs8VHyuA==",
+      "path": "aspnetcore.healthchecks.uris/9.0.0",
+      "hashPath": "aspnetcore.healthchecks.uris.9.0.0.nupkg.sha512"
     },
     "Azure.Core/1.38.0": {
       "type": "package",
@@ -1779,6 +1836,13 @@
       "path": "microsoft.extensions.dependencymodel/9.0.4",
       "hashPath": "microsoft.extensions.dependencymodel.9.0.4.nupkg.sha512"
     },
+    "Microsoft.Extensions.Diagnostics/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3PZp/YSkIXrF7QK7PfC1bkyRYwqOHpWFad8Qx+4wkuumAeXo1NHaxpS9LboNA9OvNSAu+QOVlXbMyoY+pHSqcw==",
+      "path": "microsoft.extensions.diagnostics/8.0.0",
+      "hashPath": "microsoft.extensions.diagnostics.8.0.0.nupkg.sha512"
+    },
     "Microsoft.Extensions.Diagnostics.Abstractions/9.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1813,6 +1877,13 @@
       "sha512": "sha512-yUKJgu81ExjvqbNWqZKshBbLntZMbMVz/P7Way2SBx7bMqA08Mfdc9O7hWDKAiSp+zPUGT6LKcSCQIPeDK+CCw==",
       "path": "microsoft.extensions.hosting.abstractions/9.0.0",
       "hashPath": "microsoft.extensions.hosting.abstractions.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cWz4caHwvx0emoYe7NkHPxII/KkTI8R/LC9qdqJqnKv2poTJ4e2qqPGQqvRoQ5kaSA4FU5IV3qFAuLuOhoqULQ==",
+      "path": "microsoft.extensions.http/8.0.0",
+      "hashPath": "microsoft.extensions.http.8.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging/9.0.4": {
       "type": "package",
@@ -2010,12 +2081,12 @@
       "path": "opentelemetry.instrumentation.sqlclient/1.11.0-beta.2",
       "hashPath": "opentelemetry.instrumentation.sqlclient.1.11.0-beta.2.nupkg.sha512"
     },
-    "RabbitMQ.Client/6.4.0": {
+    "RabbitMQ.Client/6.8.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-1znR1gGU+xYVSpO5z8nQolcUKA/yydnxQn7Ug9+RUXxTSLMm/eE58VKGwahPBjELXvDnX0k/kBrAitFLRjx9LA==",
-      "path": "rabbitmq.client/6.4.0",
-      "hashPath": "rabbitmq.client.6.4.0.nupkg.sha512"
+      "sha512": "sha512-eO4W73DUQMbgw5wcnf+6gj8fyQQlRZG2XYsIext0ajDDdggqJGvMmR8JvywHpInEOzC8q0bEdDWU+oLJ7ccyxw==",
+      "path": "rabbitmq.client/6.8.0",
+      "hashPath": "rabbitmq.client.6.8.0.nupkg.sha512"
     },
     "Serilog/4.2.0": {
       "type": "package",
@@ -2234,12 +2305,12 @@
       "path": "system.io.pipelines/9.0.4",
       "hashPath": "system.io.pipelines.9.0.4.nupkg.sha512"
     },
-    "System.Memory/4.5.4": {
+    "System.Memory/4.5.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
-      "path": "system.memory/4.5.4",
-      "hashPath": "system.memory.4.5.4.nupkg.sha512"
+      "sha512": "sha512-XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw==",
+      "path": "system.memory/4.5.5",
+      "hashPath": "system.memory.4.5.5.nupkg.sha512"
     },
     "System.Memory.Data/1.0.2": {
       "type": "package",
